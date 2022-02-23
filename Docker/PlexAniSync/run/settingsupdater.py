@@ -3,6 +3,8 @@ import os
 
 config = configparser.ConfigParser()
 
+
+
 config['PLEX'] = {
     'anime_section': os.environ.get('PLEX_SECTION'),
     'authentication_method': 'direct',

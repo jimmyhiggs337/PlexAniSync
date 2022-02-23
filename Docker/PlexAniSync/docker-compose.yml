@@ -1,0 +1,11 @@
+version: "3.3"
+services:
+  anisync:
+    container_name: PlexAniSync
+    restart: unless-stopped
+    environment:
+      - INTERVAL=3600
+    volumes:
+      - "C:/Users/ulgym/Desktop/Nas Stuff/testsync/settings.ini:/config/settings.ini:rw"
+    image: "jimmyhiggs337/plexanisync-truenasscale:latest"
+    #command: /run/copySettings.sh

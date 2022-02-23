@@ -1,18 +1,16 @@
 # Plex to AniList Sync
-[![Build Status](https://travis-ci.com/RickDB/PlexAniSync.svg?branch=master)](https://travis-ci.com/RickDB/PlexAniSync)![Docker](https://github.com/rickdb/Docker-PlexAniSync/actions/workflows/docker-publish.yml/badge.svg)
 
+[![Build Status](https://travis-ci.com/RickDB/PlexAniSync.svg?branch=master)](https://travis-ci.com/RickDB/PlexAniSync)![Docker](https://github.com/rickdb/Docker-PlexAniSync/actions/workflows/docker-publish.yml/badge.svg)
 
 ![Logo](logo.png)
 
-If you manage your Anime with Plex this will allow you to sync your libraries to [AniList](https://anilist.co)  , recommend using Plex with the [HAMA agent](https://github.com/ZeroQI/Hama.bundle) for best Anime name matches.
+If you manage your Anime with Plex this will allow you to sync your libraries to [AniList](https://anilist.co) , recommend using Plex with the [HAMA agent](https://github.com/ZeroQI/Hama.bundle) for best Anime name matches.
 
 Unwatched Anime in Plex will not be synced so only those that have at least one watched episode, updates to AniList are only send with changes so need to worry about messing up watch history.
 
+This version is based on my previous project [PlexMalSync](https://github.com/RickDB/PlexMALSync) which due to MAL closing their API is no longer working, this might change in the future and if it does will resume working on that again as as well.
 
-This version is based on my previous project  [PlexMalSync](https://github.com/RickDB/PlexMALSync) which due to MAL closing their API is no longer working, this might change in the future and if it does will resume working on that again as as well.
-
-
-**If you want test it out first without updating your actual AniList entries check out ``Skip list updating for testing `` from the ``Optional features`` section of this readme**
+**If you want test it out first without updating your actual AniList entries check out `Skip list updating for testing ` from the `Optional features` section of this readme**
 
 ## Setup
 
@@ -22,18 +20,15 @@ Make sure you have Python 3.7 or higher installed:
 
 [Python homepage](https://www.python.org/)
 
-
 ### Step 2 - Download project files
 
 Get the latest version using your favorite git client or by downloading the latest release from here:
 
 https://github.com/RickDB/PlexAniSync/archive/master.zip
 
-
 ### Step 3 - Configuration
 
 From the project directory rename `settings.ini.example` to `settings.ini`, open `settings.ini` with your favorite text editor and edit where needed.
-
 
 #### Plex
 
@@ -130,7 +125,6 @@ Install the addtional requirements using the Python package installer (pip) from
 
 `pip install -r requirements.txt`
 
-
 ### Step 5 - Start syncing
 
 Now that configuration is finished and requirements have been installed we can finally start the sync script:
@@ -151,25 +145,25 @@ You can manually link a Plex title and season to an AniList ID, to do so:
 - Add new entries there in the following format:
 
 ```yaml
-  - title: "Plex title for series"
-    seasons:
-      - season: Plex season
-        anilist-id: AniList series ID
-      - season: Plex season
-        anilist-id: AniList series ID
+- title: "Plex title for series"
+  seasons:
+    - season: Plex season
+      anilist-id: AniList series ID
+    - season: Plex season
+      anilist-id: AniList series ID
 ```
 
 If the Plex season should be split into 2 seasons, add an optional `start` parameter to each season like this:
 
 ```yaml
-  - title: "Re:ZERO -Starting Life in Another World-"
-    seasons:
-      - season: 2
-        anilist-id: 108632
-        start: 1
-      - season: 2
-        anilist-id: 119661
-        start: 14
+- title: "Re:ZERO -Starting Life in Another World-"
+  seasons:
+    - season: 2
+      anilist-id: 108632
+      start: 1
+    - season: 2
+      anilist-id: 119661
+      start: 14
 ```
 
 Episodes 1-13 will be mapped to Re:Zero 2nd Season Part 1, episodes 14 and higher will be mapped to Re:Zero 2nd Season Part 2.
@@ -195,10 +189,6 @@ If you want to load a different settings.in file you can do so by supplying it i
 
 `python PlexAniSync.py settings_alternate.ini`
 
-In case of the Tautulli sync helper script you can do as well, first argument will then be settings filename and second will be the series name like so:
-
-`python TautulliSyncHelper.py  settings_alternate.ini <plex show name>`
-
 ### Make Plex watched episode count take priority
 
 By default if AniList episode count watched is higher than that of Plex it will skip over, this can be overriden with the setting `plex_episode_count_priority`
@@ -211,24 +201,9 @@ When set to True it will update the AniList entry if Plex watched episode count 
 
 In your settings file there's a setting called `skip_list_update` which you can set to True or False, if set to True it will **NOT** update your AniList which is useful if you want to do a test run to check if everything lines up properly.
 
-### Tautulli Sync Helper script
-
-In the project folder you will find `TautulliSyncHelper.py` which you can use to sync a single Plex show to AniList for use in Tautulli script notifcations (trigger on playback stop).
-
-Usage is as follows:
-
-`python TautulliSyncHelper.py <plex show name>`
-
-Depending on your OS make sure to place the show name between single or double quotes, for more information see the wiki page:
-
-https://github.com/RickDB/PlexAniSync/wiki/Tautulli-sync-script
-
 ## Docker
 
 Docker version is located here: [PlexAniSync](https://github.com/RickDB/PlexAniSync/pkgs/container/plexanisync)
-
-Another docker container for Tautulli with built-in PlexAniSync can be found here: [Tautulli-PlexAniSync](https://github.com/RickDB/PlexAniSync/pkgs/container/tautulli-plexanisync)
-
 
 ## Requirements
 

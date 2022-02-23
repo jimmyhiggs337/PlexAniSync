@@ -1,4 +1,10 @@
-# Docker-PlexAniSync
+[hub]: https://hub.docker.com/r/jimmyhiggs337/plexanisync-truenasscale
+
+# Docker-PlexAniSync for Truenas Scale
+
+Based off of [Rickdb's PlexAniSync](https://github.com/RickDB/Docker-PlexAniSync)
+
+Moves all Environment variables ONLY into the settings.ini file to account for TrueNas Scale's 1024 variable size
 
 ## Usage
 
@@ -8,30 +14,31 @@
 docker run -d \
   --name=plexanisync \
   --restart unless-stopped \
-  -e PLEX_SECTION=Anime \
-  -e PLEX_URL=http://127.0.0.1:32400 \
-  -e PLEX_TOKEN=SomePlexToken \
-  -e ANI_USERNAME=SomeUser \
-  -e ANI_TOKEN=SomeToken \
-  -e INTERVAL=3600 \
+  -e SETTINGS_FILE=/config/settings.ini
   -v /etc/localtime:/etc/localtime:ro \
-  ghcr.io/rickdb/plexanisync:latest
+  jimmyhiggs337/plexanisync-truenasscale:latest
 ```
+
+### Truenas Scale
+
+#### Container Environment Variables
+
+| Environment Variable Name | Environment Variable Value |
+| ------------------------- | -------------------------- |
+| SETTINGS_FILE             | /path/to/config/file.ini   |
+
+#### Storage: Configure Host Path Volumes
+
+| Host Path                       | Mount Path                            |
+| ------------------------------- | ------------------------------------- |
+| /path/on/nas/to/config/file.ini | /env/variable/path/to/config/file.ini |
 
 ### Environment Variables
 
-| ID                          | Default                | Required | Note                                                                                                                                                     |
-| --------------------------- | ---------------------- | :-------: | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| PLEX_SECTION                | Anime                  | &#10003;* | The library where your anime resides                                                                                                                     |
-| PLEX_URL                    | http://127.0.0.1:32400 | &#10003;* | The address to your Plex Media Server, for example: http://127.0.0.1:32400                                                                               |
-| PLEX_TOKEN                  | -                      | &#10003;* | Follow [this guide](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/)                                            |
-| ANI_USERNAME                | -                      | &#10003;* | Your [AniList.co](http://www.anilist.co) username                                                                                                        |
-| ANI_TOKEN                   | -                      | &#10003;* | Get it [here](https://anilist.co/api/v2/oauth/authorize?client_id=1549&response_type=token)                                                              |
-| PLEX_EPISODE_COUNT_PRIORITY | -                      | &#10005;  | If set to True, Plex episode watched count will take priority over AniList (default = False)                                                             |
-| SKIP_LIST_UPDATE            | -                      | &#10005;  | If set to True, it will NOT update your AniList which is useful if you want to do a test run to check if everything lines up properly. (default = False) |
-| LOG_FAILED_MATCHES          | -                      | &#10005;  | If set to True, failed matches will be written to /plexanisync/failed_matches.txt (default = False)                                                      |
-| SETTINGS_FILE               | -                      | &#10005;  | Location of a custom settings.ini for more advanced configuration. Makes all settings above obsolete. See section below for usage.                       |
-| INTERVAL                    | 3600                   | &#10005;  | The time in between syncs in seconds                                                                                                                     |
+| ID            | Default              | Required | Note                                                                                                                               |
+| ------------- | -------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| SETTINGS_FILE | /config/settings.ini | ✅       | Location of a custom settings.ini for more advanced configuration. Makes all settings above obsolete. See section below for usage. |
+| INTERVAL      | 3600                 | ✅       | The time in between syncs in seconds                                                                                               |
 
 ### Custom mappings
 
@@ -50,6 +57,40 @@ If you want to use other Plex login mechanisms, you can use your own settings.in
 If the settings file is located at `/docker/plexanisync/settings.ini` and you want to place it to `/config/settings.ini`, use the following volume mapping and environment variable:
 
 ```
--v '/docker/plexanisync/settings.ini:/config/settings.ini:ro'
+-v '/docker/plexanisync/config/settings.ini:/config/settings.ini:rw'
 -e 'SETTINGS_FILE=/config/settings.ini'
+```
+
+### Settigns.ini Example
+
+```
+[PLEX]
+anime_section = Anime
+
+ # Choose 'direct' or 'myplex'
+authentication_method = direct
+
+# Direct IP
+base_url = http://127.0.0.1:32400
+token = abcdef123456789
+
+# MyPlex
+server = Sadala
+myplex_user = John
+myplex_password = Doe
+
+# if you enable home_user_sync it will only sync against that specific Plex home user, it requires the full url of your Plex server just like with the Direct IP method
+# home_username is the actual Plex home username and not their e-mail address, this is also case sensitive
+
+home_user_sync = False
+home_username = Megumin
+home_server_base_url = http://127.0.0.1:32400
+
+[ANILIST]
+access_token = SomeVeryLongAccessToken
+plex_episode_count_priority = False
+skip_list_update = False
+username = SomeUsername
+log_failed_matches = False
+
 ```
