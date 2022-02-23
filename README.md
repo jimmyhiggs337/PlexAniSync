@@ -1,4 +1,4 @@
-(docker link)[https://hub.docker.com/r/jimmyhiggs337/plexanisync-truenasscale]
+[docker link](https://hub.docker.com/r/jimmyhiggs337/plexanisync-truenasscale)
 
 # Docker-PlexAniSync for Truenas Scale
 
