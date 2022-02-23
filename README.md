@@ -1,4 +1,4 @@
-[hub]: https://hub.docker.com/r/jimmyhiggs337/plexanisync-truenasscale [hub]
+(docker link)[https://hub.docker.com/r/jimmyhiggs337/plexanisync-truenasscale]
 
 # Docker-PlexAniSync for Truenas Scale
 
@@ -20,6 +20,10 @@ docker run -d \
 ```
 
 ### Truenas Scale
+#### Container Images 
+| Image repository | jimmyhiggs337/plexanisync-truenasscale|
+| ------------------------- | -------------------------- |
+
 
 #### Container Environment Variables
 
