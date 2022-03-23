@@ -41,7 +41,7 @@ docker run -d \
 
 | ID            | Default              | Required | Note                                                                                                                               |
 | ------------- | -------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| SETTINGS_FILE | /config/settings.ini | ✅       | Location of a custom settings.ini for more advanced configuration. Makes all settings above obsolete. See section below for usage. |
+| SETTINGS_FILE | /config/settings.ini | ✅       | Location of a custom settings.ini for more advanced configuration. See section below for usage. |
 | INTERVAL      | 3600                 | ✅       | The time in between syncs in seconds                                                                                               |
 
 ### Custom mappings
